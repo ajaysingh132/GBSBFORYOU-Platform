@@ -3,7 +3,7 @@
 > Master Repository Register for the GBSBFORYOU Digital Ecosystem
 
 ---
-
+ं
 ## Purpose
 
 This document maintains the official list of all repositories in the GBSBFORYOU Ecosystem.
@@ -77,3 +77,25 @@ Repository:
 Website:
 Version:
 Maintainer:
+### 1. GBSBFORYOU Platform
+
+Purpose:
+Master Control Center
+
+Status:
+🟢 Active
+
+Repository:
+https://github.com/ajaysingh132/GBSBFORYOU-Platform
+
+Website:
+https://ajaysingh132.github.io/GBSBFORYOU-Platform/
+
+Dependencies:
+None
+
+Maintainer:
+Ajay Singh Chouhan
+
+Version:
+v1.0
