@@ -73,3 +73,7 @@ Repository:
 Website:
 Version:
 Maintainer:
+Repository:
+Website:
+Version:
+Maintainer:
