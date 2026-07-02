@@ -416,7 +416,68 @@ style="background:#1565C0;color:white;padding:12px 25px;border:none;border-radiu
 GBSBFORYOU Publishing Center © 2026
 
 </footer>
+<script>
+let books = JSON.parse(localStorage.getItem("books")) || [];
 
+function saveBooks() {
+    localStorage.setItem("books", JSON.stringify(books));
+}
+
+function renderBooks() {
+
+    const list = document.getElementById("bookList");
+
+    if (books.length === 0) {
+        list.innerHTML = "<p>कोई पुस्तक उपलब्ध नहीं है।</p>";
+        return;
+    }
+
+    list.innerHTML = "";
+
+    books.forEach((book, index) => {
+
+        list.innerHTML += `
+        <div style="border:1px solid #ddd;padding:10px;margin:10px 0;">
+            <h3>${book.title}</h3>
+            <p>✍ ${book.author}</p>
+            <p>${book.language} | ${book.category}</p>
+            <p>${book.status}</p>
+        </div>
+        `;
+
+    });
+
+}
+
+document.getElementById("saveBookBtn").onclick = function(){
+
+    const book = {
+
+        title: document.getElementById("title").value,
+
+        author: document.getElementById("author").value,
+
+        language: document.getElementById("language").value,
+
+        category: document.getElementById("category").value,
+
+        status: document.getElementById("status").value
+
+    };
+
+    books.push(book);
+
+    saveBooks();
+
+    renderBooks();
+
+    document.getElementById("bookForm").reset();
+
+};
+
+renderBooks();
+
+      </script>
 </body>
 
 </html>
