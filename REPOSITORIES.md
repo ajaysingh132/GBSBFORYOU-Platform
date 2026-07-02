@@ -69,3 +69,7 @@ Status: Development
 ### 9. Community
 Purpose: Community Collaboration
 Status: Development
+Repository:
+Website:
+Version:
+Maintainer:
