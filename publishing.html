@@ -343,43 +343,67 @@ Sprint 1 focuses on building the Book Management System.
 </p>
 
 <br>
+  <hr>
 
-<ul>
+<h2>➕ Add New Book</h2>
 
-<li>✔ Dashboard</li>
-  ┌────────────────────────────────────┐
-│ ➕ Add New Book                    │
-├────────────────────────────────────┤
-│ Title        [______________]      │
-│ Author       [______________]      │
-│ Language     [▼]                   │
-│ Category     [▼]                   │
-│ Status       [▼ Draft/Published]   │
-│                                    │
-│        [ Save Book ]               │
-└────────────────────────────────────┘
+<form id="bookForm">
 
-┌────────────────────────────────────┐
-│ 🔍 Search Books                    │
-│ [__________________________]        │
-└────────────────────────────────────┘
+<label>Book Title</label><br>
+<input type="text" id="title" placeholder="Enter Book Title"
+style="width:100%;padding:10px;margin:8px 0;"><br>
 
-┌────────────────────────────────────┐
-│ 📚 My Books                        │
-│ • Book 1                           │
-│ • Book 2                           │
-│ • Book 3                           │
-└────────────────────────────────────┘
+<label>Author</label><br>
+<input type="text" id="author" placeholder="Author Name"
+style="width:100%;padding:10px;margin:8px 0;"><br>
 
-<li>⏳ Add Book Form</li>
+<label>Language</label><br>
+<select id="language"
+style="width:100%;padding:10px;margin:8px 0;">
+<option>English</option>
+<option>Hindi</option>
+<option>Banjara</option>
+<option>Marathi</option>
+<option>Telugu</option>
+</select><br>
 
-<li>⏳ Book List</li>
+<label>Category</label><br>
+<select id="category"
+style="width:100%;padding:10px;margin:8px 0;">
+<option>Research</option>
+<option>Education</option>
+<option>History</option>
+<option>Religion</option>
+<option>Dictionary</option>
+<option>Novel</option>
+</select><br>
 
-<li>⏳ Local Storage</li>
+<label>Status</label><br>
+<select id="status"
+style="width:100%;padding:10px;margin:8px 0;">
+<option>Draft</option>
+<option>Published</option>
+</select><br><br>
 
-<li>⏳ Import / Export JSON</li>
+<button type="button"
+style="background:#1565C0;color:white;padding:12px 25px;border:none;border-radius:6px;cursor:pointer;">
+💾 Save Book
+</button>
 
-</ul>
+</form>
+
+<hr>
+
+<h2>📚 My Books</h2>
+
+<div id="bookList">
+
+<p>No books available.</p>
+
+</div>
+
+
+
 
 </div>
 
