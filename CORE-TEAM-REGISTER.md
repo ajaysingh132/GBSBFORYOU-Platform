@@ -5,3 +5,4 @@ Publishing & Library
 AI & Digital Technology
 Media & Outreach
 Community & Governance
+Digital Entrepreneurship
