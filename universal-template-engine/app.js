@@ -1,21 +1,41 @@
 /*
- * Universal Template Engine — MVP
- * GBSBFORYOU / Ekaant AI Typing
+ * GBSBFORYOU Universal Template Engine
+ * Ekaant AI Typing
  *
- * Version: 0.1.0
- * Purpose:
- * Raw Text → Field Extraction → Review → Validation → Preview → JSON
+ * File: app.js
+ * Version: 0.2.0
  *
- * Security:
- * No API key, password or private credential is stored here.
+ * Flow:
+ * Raw Text
+ * → Field Extraction
+ * → Template Selection
+ * → Template Mapping
+ * → Validation
+ * → Preview
+ * → JSON
  */
 
 (function () {
   "use strict";
 
-  /* ==============================
+  /* =========================================
+     APPLICATION STATE
+  ========================================= */
+
+  const state = {
+    rawText: "",
+    fields: {},
+    mapping: [],
+    mappedData: {},
+    templateId: "application-basic-001",
+    validation: null,
+    confirmed: false
+  };
+
+
+  /* =========================================
      FIELD DICTIONARY
-  ============================== */
+  ========================================= */
 
   const FIELD_DICTIONARY = {
     "नाम": "name",
@@ -78,9 +98,9 @@
   };
 
 
-  /* ==============================
+  /* =========================================
      FIELD LABELS
-  ============================== */
+  ========================================= */
 
   const FIELD_LABELS = {
     name: "नाम",
@@ -104,89 +124,51 @@
   };
 
 
-  /* ==============================
-     TEMPLATE DEFINITIONS
-  ============================== */
-
-  const TEMPLATES = {
-    application: {
-      id: "application",
-      name: "Basic Application",
-      required: [
-        "name",
-        "address",
-        "date",
-        "subject"
-      ]
-    },
-
-    letter: {
-      id: "letter",
-      name: "Basic Official Letter",
-      required: [
-        "name",
-        "address",
-        "date",
-        "subject"
-      ]
-    }
-  };
-
-
-  /* ==============================
-     APPLICATION STATE
-  ============================== */
-
-  const state = {
-    rawText: "",
-    fields: {},
-    template: "application",
-    confirmed: false
-  };
-
-
-  /* ==============================
+  /* =========================================
      DOM HELPER
-  ============================== */
+  ========================================= */
 
   function $(id) {
     return document.getElementById(id);
   }
 
 
-  /* ==============================
-     NORMALIZE KEY
-  ============================== */
+  /* =========================================
+     STATUS MESSAGE
+  ========================================= */
 
-  function normalizeKey(key) {
-    return key
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, " ");
+  function showStatus(message, type) {
+    const box = $("statusBox");
+
+    if (!box) {
+      return;
+    }
+
+    box.className = "status " + type;
+    box.textContent = message;
   }
 
 
-  /* ==============================
+  /* =========================================
      FIELD EXTRACTION
-  ============================== */
+  ========================================= */
 
   function extractFields(text) {
-
     const fields = {};
 
     const lines = text.split(/\r?\n/);
 
     lines.forEach(function (line) {
-
       const separator = line.indexOf(":");
 
       if (separator === -1) {
         return;
       }
 
-      const rawKey = normalizeKey(
-        line.substring(0, separator)
-      );
+      const rawKey = line
+        .substring(0, separator)
+        .trim()
+        .toLowerCase();
 
       const value = line
         .substring(separator + 1)
@@ -196,39 +178,30 @@
         return;
       }
 
-      const fieldName =
-        FIELD_DICTIONARY[rawKey];
+      const field = FIELD_DICTIONARY[rawKey];
 
-      if (!fieldName) {
+      if (!field) {
         return;
       }
 
-      fields[fieldName] = {
-
+      fields[field] = {
         value: value,
-
         source: "USER_PROVIDED",
-
         confidence: 1,
-
         confirmed: false
-
       };
-
     });
 
     return fields;
   }
 
 
-  /* ==============================
+  /* =========================================
      RENDER FIELDS
-  ============================== */
+  ========================================= */
 
   function renderFields() {
-
-    const container =
-      $("fieldsContainer");
+    const container = $("fieldsContainer");
 
     if (!container) {
       return;
@@ -236,487 +209,525 @@
 
     container.innerHTML = "";
 
-    const keys =
-      Object.keys(state.fields);
+    const keys = Object.keys(state.fields);
 
     if (!keys.length) {
-
       container.innerHTML =
         "<p>कोई recognized field नहीं मिली।</p>";
-
       return;
     }
 
-
     keys.forEach(function (key) {
+      const item = state.fields[key];
 
-      const item =
-        state.fields[key];
+      const wrapper = document.createElement("div");
+      wrapper.className = "field";
 
-      const wrapper =
-        document.createElement("div");
+      const label = document.createElement("div");
+      label.className = "field-name";
+      label.textContent = FIELD_LABELS[key] || key;
 
-      wrapper.className =
-        "field";
-
-
-      const label =
-        document.createElement("div");
-
-      label.className =
-        "field-name";
-
-      label.textContent =
-        FIELD_LABELS[key] || key;
-
-
-      const input =
-        document.createElement("input");
-
+      const input = document.createElement("input");
       input.type = "text";
+      input.value = item.value || "";
 
-      input.value =
-        item.value;
+      input.addEventListener("input", function (event) {
+        state.fields[key].value =
+          event.target.value;
 
-      input.dataset.field =
-        key;
+        state.fields[key].confirmed = false;
+        state.confirmed = false;
 
+        updateJSON();
+      });
 
-      input.addEventListener(
-        "input",
-        function (event) {
-
-          state.fields[key].value =
-            event.target.value;
-
-          state.fields[key].confirmed =
-            false;
-
-          state.confirmed =
-            false;
-
-          updateJSON();
-
-        }
-      );
-
-
-      const source =
-        document.createElement("div");
-
-      source.className =
-        "field-source";
+      const source = document.createElement("div");
+      source.className = "field-source";
 
       source.textContent =
         "Source: " +
         item.source +
         " · Confidence: " +
-        Math.round(
-          item.confidence * 100
-        ) +
+        Math.round(item.confidence * 100) +
         "%";
 
-
       wrapper.appendChild(label);
-
       wrapper.appendChild(input);
-
       wrapper.appendChild(source);
 
       container.appendChild(wrapper);
-
     });
-
   }
 
 
-  /* ==============================
-     VALIDATION
-  ============================== */
+  /* =========================================
+     GET TEMPLATE
+  ========================================= */
 
-  function validateFields() {
-
-    const template =
-      TEMPLATES[state.template];
-
-    if (!template) {
-      return [];
+  function getTemplate() {
+    if (!window.UniversalTemplateEngine) {
+      return null;
     }
 
-    return template.required.filter(
-      function (field) {
-
-        return (
-          !state.fields[field] ||
-          !state.fields[field].value ||
-          !state.fields[field].value.trim()
-        );
-
-      }
-    );
-
+    return window.UniversalTemplateEngine
+      .getTemplate(state.templateId);
   }
 
 
-  /* ==============================
-     DOCUMENT PREVIEW
-  ============================== */
+  /* =========================================
+     UPDATE TEMPLATE INFORMATION
+  ========================================= */
 
-  function buildPreview() {
-
-    function get(field) {
-
-      if (
-        state.fields[field] &&
-        state.fields[field].value
-      ) {
-
-        return state.fields[field]
-          .value
-          .trim();
-
-      }
-
-      return "[MISSING]";
-    }
-
-
-    if (
-      state.template === "letter"
-    ) {
-
-      return [
-
-        "आधिकारिक पत्र",
-
-        "",
-
-        "प्रेषक: " +
-        get("name"),
-
-        "पता: " +
-        get("address"),
-
-        "",
-
-        "विषय: " +
-        get("subject"),
-
-        "",
-
-        "दिनांक: " +
-        get("date")
-
-      ].join("\n");
-
-    }
-
-
-    return [
-
-      "आवेदन",
-
-      "",
-
-      "आवेदक का नाम: " +
-      get("name"),
-
-      "पता: " +
-      get("address"),
-
-      "",
-
-      "विषय: " +
-      get("subject"),
-
-      "",
-
-      "दिनांक: " +
-      get("date"),
-
-      "",
-
-      "आवेदक:",
-
-      get("name")
-
-    ].join("\n");
-
-  }
-
-
-  /* ==============================
-     JSON OUTPUT
-  ============================== */
-
-  function updateJSON() {
-
-    const output = {
-
-      project:
-        "GBSBFORYOU Universal Template Engine",
-
-      version:
-        "0.1.0",
-
-      template:
-        state.template,
-
-      template_name:
-        TEMPLATES[state.template]
-          ? TEMPLATES[state.template].name
-          : "",
-
-      raw_input:
-        state.rawText,
-
-      confirmed:
-        state.confirmed,
-
-      fields:
-        state.fields
-
-    };
-
-
-    const outputBox =
-      $("jsonOutput");
-
-    if (outputBox) {
-
-      outputBox.value =
-        JSON.stringify(
-          output,
-          null,
-          2
-        );
-
-    }
-
-  }
-
-
-  /* ==============================
-     STATUS MESSAGE
-  ============================== */
-
-  function showStatus(
-    message,
-    type
-  ) {
-
-    const box =
-      $("statusBox");
+  function updateTemplateInfo() {
+    const template = getTemplate();
+    const box = $("templateInfo");
 
     if (!box) {
       return;
     }
 
-    box.className =
-      "status " + type;
+    if (!template) {
+      box.textContent =
+        "Template उपलब्ध नहीं है।";
+      return;
+    }
 
-    box.textContent =
-      message;
-
+    box.innerHTML =
+      "<strong>Template:</strong> " +
+      escapeHTML(template.name) +
+      "<br>" +
+      "<strong>Version:</strong> " +
+      escapeHTML(template.version || "1.0") +
+      "<br>" +
+      "<strong>Status:</strong> " +
+      escapeHTML(template.status || "ACTIVE");
   }
 
 
-  /* ==============================
-     EXTRACT BUTTON
-  ============================== */
+  /* =========================================
+     HTML ESCAPE
+  ========================================= */
 
-  function handleExtract() {
-
-    const input =
-      $("rawText");
-
-    if (!input) {
-      return;
-    }
-
-    const raw =
-      input.value.trim();
-
-
-    if (!raw) {
-
-      showStatus(
-        "पहले कच्चा टेक्स्ट डालें।",
-        "warning"
-      );
-
-      return;
-
-    }
-
-
-    state.rawText =
-      raw;
-
-    state.fields =
-      extractFields(raw);
-
-    state.confirmed =
-      false;
-
-
-    renderFields();
-
-    updateJSON();
-
-
-    const count =
-      Object.keys(
-        state.fields
-      ).length;
-
-
-    if (!count) {
-
-      showStatus(
-
-        "कोई recognized field नहीं मिली। " +
-        "उदाहरण: नाम: अजय सिंह चौहान",
-
-        "warning"
-
-      );
-
-      return;
-
-    }
-
-
-    showStatus(
-
-      count +
-      " field निकाली गई। " +
-      "कृपया जानकारी की जाँच करें।",
-
-      "success"
-
-    );
-
+  function escapeHTML(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
 
-  /* ==============================
+  /* =========================================
      TEMPLATE CHANGE
-  ============================== */
+  ========================================= */
 
-  function handleTemplateChange(
-    event
-  ) {
+  function handleTemplateChange(event) {
+    const selected = event.target.value;
 
-    state.template =
-      event.target.value;
+    if (selected === "application") {
+      state.templateId =
+        "application-basic-001";
+    } else if (selected === "letter") {
+      state.templateId =
+        "letter-basic-001";
+    } else {
+      state.templateId = selected;
+    }
 
-    state.confirmed =
-      false;
+    state.mapping = [];
+    state.mappedData = {};
+    state.validation = null;
+    state.confirmed = false;
 
+    clearMapping();
+    clearPreview();
+    updateTemplateInfo();
     updateJSON();
-
   }
 
 
-  /* ==============================
-     VALIDATE + PREVIEW
-  ============================== */
+  /* =========================================
+     CLEAR MAPPING
+  ========================================= */
 
-  function handleValidate() {
+  function clearMapping() {
+    const container = $("mappingContainer");
 
-    const missing =
-      validateFields();
+    if (!container) {
+      return;
+    }
+
+    container.innerHTML =
+      "<p>Mapping अभी नहीं हुई है।</p>";
+  }
 
 
-    if (missing.length) {
+  /* =========================================
+     CLEAR PREVIEW
+  ========================================= */
 
-      const names =
-        missing.map(
-          function (key) {
+  function clearPreview() {
+    const preview = $("previewBox");
 
-            return (
-              FIELD_LABELS[key] ||
-              key
-            );
+    if (!preview) {
+      return;
+    }
 
+    preview.textContent =
+      "Preview यहाँ दिखाई देगा।";
+  }
+
+
+  /* =========================================
+     CREATE MAPPING
+  ========================================= */
+
+  function createMapping() {
+    const template = getTemplate();
+
+    if (!template) {
+      showStatus(
+        "Template उपलब्ध नहीं है।",
+        "error"
+      );
+      return;
+    }
+
+    if (!Object.keys(state.fields).length) {
+      showStatus(
+        "पहले Raw Text से fields निकालें।",
+        "warning"
+      );
+      return;
+    }
+
+    try {
+      state.mapping =
+        window.UniversalTemplateEngine
+          .mapFields(
+            state.fields,
+            state.templateId
+          );
+
+      state.mappedData =
+        window.UniversalTemplateEngine
+          .applyMapping(
+            state.mapping
+          );
+
+      renderMapping();
+      updateJSON();
+
+      showStatus(
+        "Template mapping तैयार है। कृपया mapping की जाँच करें।",
+        "success"
+      );
+
+    } catch (error) {
+      console.error(
+        "Mapping error:",
+        error
+      );
+
+      showStatus(
+        "Template mapping में समस्या हुई।",
+        "error"
+      );
+    }
+  }
+
+
+  /* =========================================
+     RENDER MAPPING
+  ========================================= */
+
+  function renderMapping() {
+    const container =
+      $("mappingContainer");
+
+    if (!container) {
+      return;
+    }
+
+    container.innerHTML = "";
+
+    if (!state.mapping.length) {
+      container.innerHTML =
+        "<p>कोई mapping उपलब्ध नहीं है।</p>";
+      return;
+    }
+
+    state.mapping.forEach(
+      function (item, index) {
+        const wrapper =
+          document.createElement("div");
+
+        wrapper.className = "field";
+
+        const title =
+          document.createElement("div");
+
+        title.className = "field-name";
+
+        title.textContent =
+          item.template_label ||
+          item.template_field;
+
+        const input =
+          document.createElement("input");
+
+        input.type = "text";
+        input.value = item.value || "";
+
+        input.addEventListener(
+          "input",
+          function (event) {
+            state.mapping[index].value =
+              event.target.value;
+
+            state.mapping[index].method =
+              "MANUAL";
+
+            state.mapping[index].confirmed =
+              true;
+
+            state.mappedData =
+              window.UniversalTemplateEngine
+                .applyMapping(
+                  state.mapping
+                );
+
+            state.confirmed = false;
+
+            updateJSON();
           }
         );
 
+        const details =
+          document.createElement("div");
 
-      showStatus(
+        details.className =
+          "field-source";
 
-        "आवश्यक जानकारी missing है: " +
-        names.join(", "),
+        details.textContent =
+          "Source: " +
+          (
+            item.source_field ||
+            "MISSING"
+          ) +
+          " · Method: " +
+          (
+            item.method ||
+            "MISSING"
+          ) +
+          " · Confidence: " +
+          Math.round(
+            Number(item.confidence || 0) * 100
+          ) +
+          "%";
 
-        "error"
+        wrapper.appendChild(title);
+        wrapper.appendChild(input);
+        wrapper.appendChild(details);
 
-      );
-
-
-      const preview =
-        $("previewBox");
-
-      if (preview) {
-
-        preview.textContent =
-          "Document तैयार नहीं किया जा सकता। " +
-          "Missing fields भरें।";
-
-      }
-
-      return;
-
-    }
-
-
-    state.confirmed =
-      true;
-
-
-    Object.keys(
-      state.fields
-    ).forEach(
-      function (key) {
-
-        state.fields[key]
-          .confirmed = true;
-
+        container.appendChild(wrapper);
       }
     );
-
-
-    const preview =
-      $("previewBox");
-
-    if (preview) {
-
-      preview.textContent =
-        buildPreview();
-
-    }
-
-
-    updateJSON();
-
-
-    showStatus(
-
-      "Validation सफल। Preview तैयार है।",
-
-      "success"
-
-    );
-
   }
 
 
-  /* ==============================
+  /* =========================================
+     VALIDATE DOCUMENT
+  ========================================= */
+
+  function validateDocument() {
+    const template = getTemplate();
+
+    if (!template) {
+      showStatus(
+        "Template उपलब्ध नहीं है।",
+        "error"
+      );
+      return false;
+    }
+
+    if (!state.mapping.length) {
+      showStatus(
+        "पहले Template Mapping करें।",
+        "warning"
+      );
+      return false;
+    }
+
+    state.mappedData =
+      window.UniversalTemplateEngine
+        .applyMapping(
+          state.mapping
+        );
+
+    const result =
+      window.UniversalTemplateValidator
+        .canGenerate(
+          template,
+          state.mappedData
+        );
+
+    state.validation = result;
+
+    updateJSON();
+
+    if (!result.allowed) {
+      const messages = [];
+
+      if (
+        result.validation &&
+        Array.isArray(result.validation.errors)
+      ) {
+        result.validation.errors.forEach(
+          function (error) {
+            messages.push(
+              error.message
+            );
+          }
+        );
+      }
+
+      if (
+        result.fabrication &&
+        Array.isArray(result.fabrication.warnings)
+      ) {
+        result.fabrication.warnings.forEach(
+          function (warning) {
+            messages.push(
+              warning.message
+            );
+          }
+        );
+      }
+
+      showStatus(
+        messages.length
+          ? messages.join(" ")
+          : "Validation failed.",
+        "error"
+      );
+
+      renderPreview(false);
+
+      return false;
+    }
+
+    state.confirmed = true;
+
+    renderPreview(true);
+
+    showStatus(
+      "Validation सफल। Document Preview तैयार है।",
+      "success"
+    );
+
+    return true;
+  }
+
+
+  /* =========================================
+     DOCUMENT PREVIEW
+  ========================================= */
+
+  function renderPreview(valid) {
+    const preview = $("previewBox");
+
+    if (!preview) {
+      return;
+    }
+
+    if (!valid) {
+      preview.textContent =
+        "Document तैयार नहीं किया जा सकता। पहले missing या invalid information ठीक करें।";
+      return;
+    }
+
+    try {
+      const documentText =
+        window.UniversalTemplateEngine
+          .render(
+            state.templateId,
+            state.mappedData
+          );
+
+      preview.textContent =
+        documentText;
+
+    } catch (error) {
+      console.error(
+        "Preview error:",
+        error
+      );
+
+      preview.textContent =
+        "Preview generation में समस्या हुई।";
+    }
+  }
+
+
+  /* =========================================
+     UPDATE JSON
+  ========================================= */
+
+  function updateJSON() {
+    const output = $("jsonOutput");
+
+    if (!output) {
+      return;
+    }
+
+    const data = {
+      project:
+        "GBSBFORYOU Universal Template Engine",
+
+      version:
+        "0.2.0",
+
+      module:
+        "Ekaant AI Typing",
+
+      template_id:
+        state.templateId,
+
+      raw_input:
+        state.rawText,
+
+      fields:
+        state.fields,
+
+      mapping:
+        state.mapping,
+
+      mapped_data:
+        state.mappedData,
+
+      confirmed:
+        state.confirmed,
+
+      validation:
+        state.validation
+    };
+
+    output.value =
+      JSON.stringify(
+        data,
+        null,
+        2
+      );
+  }
+
+
+  /* =========================================
      COPY JSON
-  ============================== */
+  ========================================= */
 
-  async function handleCopyJSON() {
-
+  async function copyJSON() {
     const output =
       $("jsonOutput");
 
@@ -727,160 +738,220 @@
     const text =
       output.value;
 
-
     if (!text) {
       return;
     }
 
-
     try {
-
-      await navigator
-        .clipboard
-        .writeText(text);
-
+      await navigator.clipboard.writeText(
+        text
+      );
 
       showStatus(
-
         "JSON clipboard में copy हो गया।",
-
         "success"
-
       );
 
     } catch (error) {
-
-      /*
-       * Clipboard API unavailable होने पर
-       * fallback selection.
-       */
-
       output.focus();
-
       output.select();
 
       showStatus(
-
-        "JSON select हो गया है। Copy करें।",
-
+        "JSON select हो गया है। अब Copy करें।",
         "warning"
-
       );
-
     }
-
   }
 
 
-  /* ==============================
+  /* =========================================
+     RAW TEXT HANDLER
+  ========================================= */
+
+  function handleExtract() {
+    const input = $("rawText");
+
+    if (!input) {
+      return;
+    }
+
+    const raw =
+      input.value.trim();
+
+    if (!raw) {
+      showStatus(
+        "पहले कच्चा टेक्स्ट डालें।",
+        "warning"
+      );
+      return;
+    }
+
+    state.rawText = raw;
+
+    state.fields =
+      extractFields(raw);
+
+    state.mapping = [];
+    state.mappedData = {};
+    state.validation = null;
+    state.confirmed = false;
+
+    renderFields();
+    clearMapping();
+    clearPreview();
+    updateJSON();
+
+    const count =
+      Object.keys(
+        state.fields
+      ).length;
+
+    if (!count) {
+      showStatus(
+        "कोई recognized field नहीं मिली। उदाहरण: नाम: अजय सिंह चौहान",
+        "warning"
+      );
+      return;
+    }
+
+    showStatus(
+      count +
+      " field निकाली गई। अब Template Mapping करें।",
+      "success"
+    );
+  }
+
+
+  /* =========================================
+     MODULE CHECK
+  ========================================= */
+
+  function checkModules() {
+    const engine =
+      window.UniversalTemplateEngine;
+
+    const validator =
+      window.UniversalTemplateValidator;
+
+    if (!engine) {
+      showStatus(
+        "template-engine.js load नहीं हुआ।",
+        "error"
+      );
+      return false;
+    }
+
+    if (!validator) {
+      showStatus(
+        "validator.js load नहीं हुआ।",
+        "error"
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+
+  /* =========================================
      INITIALIZE
-  ============================== */
+  ========================================= */
 
   function init() {
+    if (!checkModules()) {
+      return;
+    }
 
-    const extractButton =
+    const extractBtn =
       $("extractBtn");
 
-    if (extractButton) {
-
-      extractButton
-        .addEventListener(
-          "click",
-          handleExtract
-        );
-
+    if (extractBtn) {
+      extractBtn.addEventListener(
+        "click",
+        handleExtract
+      );
     }
-
-
-    const validateButton =
-      $("validateBtn");
-
-    if (validateButton) {
-
-      validateButton
-        .addEventListener(
-          "click",
-          handleValidate
-        );
-
-    }
-
 
     const templateSelect =
       $("templateSelect");
 
     if (templateSelect) {
-
-      templateSelect
-        .addEventListener(
-          "change",
-          handleTemplateChange
-        );
-
+      templateSelect.addEventListener(
+        "change",
+        handleTemplateChange
+      );
     }
 
+    const mapBtn =
+      $("mapBtn");
 
-    const copyButton =
+    if (mapBtn) {
+      mapBtn.addEventListener(
+        "click",
+        createMapping
+      );
+    }
+
+    const validateBtn =
+      $("validateBtn");
+
+    if (validateBtn) {
+      validateBtn.addEventListener(
+        "click",
+        validateDocument
+      );
+    }
+
+    const copyJsonBtn =
       $("copyJsonBtn");
 
-    if (copyButton) {
-
-      copyButton
-        .addEventListener(
-          "click",
-          handleCopyJSON
-        );
-
+    if (copyJsonBtn) {
+      copyJsonBtn.addEventListener(
+        "click",
+        copyJSON
+      );
     }
 
-
+    updateTemplateInfo();
+    clearMapping();
     updateJSON();
-
   }
 
 
-  /*
-   * Start after DOM is ready.
-   */
+  /* =========================================
+     START APPLICATION
+  ========================================= */
 
   if (
     document.readyState ===
     "loading"
   ) {
-
     document.addEventListener(
       "DOMContentLoaded",
       init
     );
-
   } else {
-
     init();
-
   }
 
 
-  /*
-   * Optional public API.
-   *
-   * Future modules such as
-   * template-engine.js and validator.js
-   * can use these functions after
-   * architecture integration.
-   */
+  /* =========================================
+     PUBLIC API
+  ========================================= */
 
-  window.EkaantTemplateEngine = {
-
-    extractFields,
-    validateFields,
-    buildPreview,
-    updateJSON,
+  window.EkaantUniversalApp = {
 
     getState: function () {
-
       return state;
+    },
 
-    }
+    extract: handleExtract,
+
+    map: createMapping,
+
+    validate: validateDocument,
+
+    preview: renderPreview
 
   };
 
