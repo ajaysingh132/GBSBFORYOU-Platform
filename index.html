@@ -1,731 +1,712 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
 
-<title>GBSBFORYOU Platform</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
-<meta name="description" content="Master Control Center for the GBSBFORYOU Digital Ecosystem">
+  <meta
+    name="description"
+    content="GBSBFORYOU Universal Template Engine"
+  >
 
-<style>
+  <meta
+    name="theme-color"
+    content="#111827"
+  >
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
-}
+  <title>
+    Universal Template Engine — GBSBFORYOU
+  </title>
 
-body{
-background:#f4f6f9;
-color:#222;
-line-height:1.6;
-}
+  <style>
 
-header{
-background:#0d47a1;
-color:white;
-padding:40px 20px;
-text-align:center;
-}
+    /* =====================================
+       BASE
+    ===================================== */
 
-header h1{
-font-size:38px;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-header p{
-margin-top:10px;
-font-size:18px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-nav{
-background:#1565c0;
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-}
+    body {
+      margin: 0;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 
-nav a{
-color:white;
-text-decoration:none;
-padding:15px 20px;
-font-weight:bold;
-}
+      background: #f4f5f7;
+      color: #202124;
+      line-height: 1.6;
+    }
 
-nav a:hover{
-background:#0d47a1;
-}
 
-.container{
-width:95%;
-max-width:1200px;
-margin:auto;
-padding:25px 0;
-}
+    /* =====================================
+       HEADER
+    ===================================== */
 
-.card{
-background:white;
-padding:25px;
-margin-bottom:25px;
-border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
-}
+    header {
+      background: #111827;
+      color: #ffffff;
+      padding: 18px 16px;
+    }
 
-.card h2{
-color:#1565c0;
-margin-bottom:15px;
-}
+    .header-inner {
+      max-width: 900px;
+      margin: auto;
+    }
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
+    header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
 
-table th{
-background:#1565c0;
-color:white;
-padding:12px;
-}
+    header p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
 
-table td{
-padding:10px;
-border:1px solid #ddd;
-}
 
-.active{
-color:green;
-font-weight:bold;
-}
+    /* =====================================
+       MAIN
+    ===================================== */
 
-.development{
-color:orange;
-font-weight:bold;
-}
+    main {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 16px;
+    }
 
-.planned{
-color:#1976d2;
-font-weight:bold;
-}
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
-margin-top:20px;
-}
+    /* =====================================
+       CARD
+    ===================================== */
 
-.repo{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
+    .card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
 
-.repo h3{
-color:#1565c0;
-margin-bottom:10px;
-}
+      box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.08);
+    }
 
-.repo a{
-text-decoration:none;
-color:#1565c0;
-font-weight:bold;
-}
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
 
-footer{
-background:#0d47a1;
-color:white;
-text-align:center;
-padding:30px;
-margin-top:40px;
-}
+    .card-description {
+      margin-top: 0;
+      color: #666666;
+      font-size: 0.9rem;
+    }
 
-.button{
-display:inline-block;
-padding:12px 25px;
-background:#1565c0;
-color:white;
-text-decoration:none;
-border-radius:6px;
-margin-top:15px;
-}
 
-.button:hover{
-background:#0d47a1;
-}
+    /* =====================================
+       FORM
+    ===================================== */
 
-@media(max-width:700px){
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+    }
 
-header h1{
-font-size:28px;
-}
+    textarea,
+    input,
+    select,
+    button {
+      width: 100%;
+      font: inherit;
+      border-radius: 9px;
+    }
 
-nav{
-flex-direction:column;
-}
+    textarea,
+    input,
+    select {
+      border: 1px solid #c8cdd3;
+      background: #ffffff;
+      padding: 11px;
+      margin-top: 6px;
+    }
 
-nav a{
-text-align:center;
-border-top:1px solid rgba(255,255,255,.2);
-}
+    textarea {
+      resize: vertical;
+      min-height: 180px;
+    }
 
-}
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 2px solid #9ca3af;
+      outline-offset: 1px;
+    }
 
-</style>
 
+    /* =====================================
+       BUTTONS
+    ===================================== */
+
+    button {
+      border: 0;
+      padding: 12px;
+      margin-top: 10px;
+
+      background: #111827;
+      color: #ffffff;
+
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button.secondary {
+      background: #4b5563;
+    }
+
+    button.success {
+      background: #166534;
+    }
+
+
+    /* =====================================
+       FIELD
+    ===================================== */
+
+    .field {
+      border: 1px solid #d7dbe0;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 10px 0;
+      background: #fafafa;
+    }
+
+    .field-name {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .field-source {
+      margin-top: 6px;
+      color: #666666;
+      font-size: 0.78rem;
+    }
+
+
+    /* =====================================
+       STATUS
+    ===================================== */
+
+    .status {
+      display: none;
+      padding: 11px;
+      margin-top: 12px;
+      border-radius: 9px;
+      font-size: 0.9rem;
+    }
+
+    .status.success {
+      display: block;
+      background: #ecfdf3;
+      color: #067647;
+    }
+
+    .status.warning {
+      display: block;
+      background: #fffaeb;
+      color: #b54708;
+    }
+
+    .status.error {
+      display: block;
+      background: #fef3f2;
+      color: #b42318;
+    }
+
+
+    /* =====================================
+       PREVIEW
+    ===================================== */
+
+    .preview {
+      min-height: 200px;
+
+      padding: 18px;
+
+      background: #fafafa;
+
+      border:
+        1px solid #d9dde2;
+
+      border-radius: 10px;
+
+      white-space: pre-wrap;
+
+      line-height: 1.8;
+    }
+
+
+    /* =====================================
+       JSON
+    ===================================== */
+
+    .json-output {
+      width: 100%;
+      min-height: 240px;
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size: 0.82rem;
+
+      white-space: pre;
+    }
+
+
+    /* =====================================
+       TEMPLATE INFORMATION
+    ===================================== */
+
+    .template-info {
+      margin-top: 10px;
+      padding: 10px;
+
+      background: #f8fafc;
+
+      border-radius: 8px;
+
+      font-size: 0.82rem;
+      color: #555555;
+    }
+
+
+    /* =====================================
+       WORKFLOW
+    ===================================== */
+
+    .workflow {
+      display: grid;
+
+      grid-template-columns:
+        repeat(5, 1fr);
+
+      gap: 8px;
+
+      margin: 10px 0 18px;
+    }
+
+    .workflow-step {
+      padding: 9px 5px;
+
+      text-align: center;
+
+      background: #f3f4f6;
+
+      border-radius: 8px;
+
+      font-size: 0.75rem;
+
+      font-weight: 600;
+    }
+
+
+    /* =====================================
+       FOOTER
+    ===================================== */
+
+    footer {
+      max-width: 900px;
+      margin: auto;
+
+      padding: 20px 16px 30px;
+
+      text-align: center;
+
+      color: #666666;
+
+      font-size: 0.8rem;
+    }
+
+
+    /* =====================================
+       MOBILE
+    ===================================== */
+
+    @media (max-width: 650px) {
+
+      main {
+        padding: 12px;
+      }
+
+      .workflow {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .workflow-step:last-child {
+        grid-column: span 2;
+      }
+
+    }
+
+
+    /* =====================================
+       DESKTOP
+    ===================================== */
+
+    @media (min-width: 700px) {
+
+      header {
+        padding: 22px 16px;
+      }
+
+      main {
+        padding: 25px 16px;
+      }
+
+    }
+
+  </style>
 </head>
+
 
 <body>
 
-<header>
 
-<h1>GBSBFORYOU Platform</h1>
+  <!-- ===================================
+       HEADER
+  ==================================== -->
 
-<p>Master Control Center for the GBSBFORYOU Digital Ecosystem</p>
+  <header>
 
-<a class="button"
-href="https://github.com/ajaysingh132/GBSBFORYOU-Platform">
-GitHub Repository
-</a>
+    <div class="header-inner">
 
-</header>
+      <h1>
+        Universal Template Engine
+      </h1>
 
-<nav>
+      <p>
+        GBSBFORYOU Platform · Ekaant AI Typing
+      </p>
 
-<a href="#vision">Vision</a>
+    </div>
 
-<a href="#mission">Mission</a>
+  </header>
 
-<a href="#ecosystem">Ecosystem</a>
 
-<a href="#repositories">Repositories</a>
+  <!-- ===================================
+       MAIN
+  ==================================== -->
 
-<a href="#documents">Documents</a>
+  <main>
 
-<a href="#roadmap">Roadmap</a>
 
-<a href="#contact">Contact</a>
+    <!-- WORKFLOW -->
 
-</nav>
+    <section class="workflow">
 
-<div class="container">
-    <!-- ========================= -->
-<!-- Vision -->
-<!-- ========================= -->
+      <div class="workflow-step">
+        1. Raw Text
+      </div>
 
-<section id="vision" class="card">
+      <div class="workflow-step">
+        2. Fields
+      </div>
 
-<h2>🌍 Vision</h2>
+      <div class="workflow-step">
+        3. Mapping
+      </div>
 
-<p>
+      <div class="workflow-step">
+        4. Validation
+      </div>
 
-Build a complete Digital Knowledge Ecosystem integrating publishing,
-education, research, language technology, governance,
-community collaboration and collective intelligence.
-
-</p>
-
-</section>
-
-<!-- ========================= -->
-<!-- Mission -->
-<!-- ========================= -->
-
-<section id="mission" class="card">
-
-<h2>🎯 Mission</h2>
-
-<ul>
-
-<li>Digital Publishing Platform</li>
-
-<li>Digital Library</li>
-
-<li>Banjara Language Engine (BLE)</li>
-
-<li>AI Integration</li>
-
-<li>Digital Parliament</li>
-
-<li>Digital Gurukul</li>
-
-<li>Research Platform</li>
-
-<li>Community Collaboration</li>
-
-</ul>
-
-</section>
-
-<!-- ========================= -->
-<!-- Ecosystem -->
-<!-- ========================= -->
-
-<section id="ecosystem" class="card">
-
-<h2>🌐 Ecosystem Overview</h2>
-
-<table>
-
-<tr>
-
-<th>Module</th>
-
-<th>Status</th>
-
-</tr>
-
-<tr>
-
-<td>GBSBFORYOU Platform</td>
-
-<td class="active">🟢 Active</td>
-
-</tr>
-
-<tr>
-
-<td>Publications</td>
-
-<td class="active">🟢 Active</td>
-
-</tr>
-
-<tr>
-
-<td>Digital Library</td>
-
-<td class="active">🟢 Active</td>
-
-</tr>
-
-<tr>
-
-<td>Banjara Language Engine</td>
-
-<td class="active">🟢 Active</td>
-
-</tr>
-
-<tr>
-
-<td>Digital Parliament</td>
-
-<td class="development">🟡 Development</td>
-
-</tr>
-
-<tr>
-
-<td>Digital Gurukul</td>
-
-<td class="development">🟡 Development</td>
-
-</tr>
-
-<tr>
-
-<td>Constitution</td>
-
-<td class="development">🟡 Development</td>
-
-</tr>
-
-<tr>
-
-<td>Research</td>
-
-<td class="planned">🔵 Planned</td>
-
-</tr>
-
-<tr>
-
-<td>Community</td>
-
-<td class="planned">🔵 Planned</td>
-
-</tr>
-
-</table>
-
-</section>
-
-<!-- ========================= -->
-<!-- Repository Dashboard -->
-<!-- ========================= -->
-
-<section id="repositories" class="card">
-
-<h2>📁 Repository Dashboard</h2>
-
-<div class="grid">
-
-<div class="repo">
-
-<h3>📚 Publications</h3>
-
-<p>Digital Publishing & ISBN</p>
-
-<a href="https://ajaysingh132.github.io/gbsbforyou-publications/">
-
-Open Website
-
-</a>
-
-</div>
-
-<div class="repo">
-
-<h3>📖 Digital Library</h3>
-
-<p>Books • Audio • Research</p>
-
-<a href="https://ajaysingh132.github.io/gbsb4u-library/">
-
-Open Website
-
-</a>
-
-</div>
-
-<div class="repo">
-
-<h3>🗣️ BLE</h3>
-
-<p>Dictionary • Translator • Reader</p>
-
-<a href="https://ajaysingh132.github.io/Banjara-Language-Engine-BLE-v1.0/">
-
-Open Website
-
-</a>
-
-</div>
-
-<div class="repo">
-
-<h3>🏛️ Digital Parliament</h3>
-
-<p>Governance Platform</p>
-
-<p>Coming Soon</p>
-
-</div>
-
-<div class="repo">
-
-<h3>🎓 Digital Gurukul</h3>
-
-<p>Education Platform</p>
-
-<p>Coming Soon</p>
-
-</div>
-
-<div class="repo">
-
-<h3>📜 Constitution</h3>
-
-<p>Policies & Standards</p>
-
-<p>Coming Soon</p>
-
-</div>
-
-</div>
-
-</section>
-    <!-- ========================= -->
-<!-- Documentation Center -->
-<!-- ========================= -->
-
-<section id="documents" class="card">
-
-<h2>📚 Documentation Center</h2>
-
-<div class="grid">
-
-<div class="repo">
-<h3>README</h3>
-<p>Project Introduction</p>
-<a href="README.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>Architecture</h3>
-<p>System Architecture</p>
-<a href="ARCHITECTURE.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>Repositories</h3>
-<p>Repository Registry</p>
-<a href="REPOSITORIES.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>Systems</h3>
-<p>System Documentation</p>
-<a href="SYSTEMS.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>API Registry</h3>
-<p>Central API Documentation</p>
-<a href="API.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>Standards</h3>
-<p>Development Standards</p>
-<a href="STANDARDS.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>Governance</h3>
-<p>Governance Policy</p>
-<a href="GOVERNANCE.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>Security</h3>
-<p>Security Policy</p>
-<a href="SECURITY.md">Open</a>
-</div>
-
-<div class="repo">
-<h3>Roadmap</h3>
-<p>Future Development</p>
-<a href="ROADMAP.md">Open</a>
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- Platform Statistics -->
-<!-- ========================= -->
-
-<section class="card">
-
-<h2>📊 Platform Statistics</h2>
-
-<table>
-
-<tr>
-<th>Item</th>
-<th>Count</th>
-</tr>
-
-<tr>
-<td>Repositories</td>
-<td>9+</td>
-</tr>
-
-<tr>
-<td>Documentation Files</td>
-<td>18+</td>
-</tr>
-
-<tr>
-<td>GitHub Pages</td>
-<td>Multiple</td>
-</tr>
-
-<tr>
-<td>AI APIs</td>
-<td>8+</td>
-</tr>
-
-<tr>
-<td>Languages</td>
-<td>Growing</td>
-</tr>
-
-</table>
-
-</section>
-
-<!-- ========================= -->
-<!-- AI Center -->
-<!-- ========================= -->
-
-<section class="card">
-
-<h2>🤖 AI Center</h2>
-
-<div class="grid">
-
-<div class="repo">
-<h3>Hugging Face</h3>
-<p>Free AI Models</p>
-</div>
-
-<div class="repo">
-<h3>Google Gemini</h3>
-<p>AI Services</p>
-</div>
-
-<div class="repo">
-<h3>BLE AI</h3>
-<p>Banjara Language AI</p>
-</div>
-
-<div class="repo">
-<h3>Future AI</h3>
-<p>Collective Intelligence</p>
-</div>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- Quick Actions -->
-<!-- ========================= -->
-
-<section class="card">
-
-<h2>⚡ Quick Actions</h2>
-
-<a class="button"
-href="https://github.com/ajaysingh132/GBSBFORYOU-Platform">
-Repository
-</a>
-
-<a class="button"
-href="https://ajaysingh132.github.io/GBSBFORYOU-Platform/">
-Website
-</a>
-
-<a class="button"
-href="PROJECTS.md">
-Projects
-</a>
-
-<a class="button"
-href="API.md">
-API Registry
-</a>
+      <div class="workflow-step">
+        5. Preview
+      </div>
 
     </section>
-    <!-- ========================= -->
-<!-- Contact -->
-<!-- ========================= -->
 
-<section id="contact" class="card">
 
-<h2>📞 Contact</h2>
+    <!-- =================================
+         RAW INPUT
+    ================================== -->
 
-<p><strong>Platform:</strong> GBSBFORYOU Platform</p>
+    <section class="card">
 
-<p><strong>Founder:</strong> Ajay Singh Chouhan</p>
+      <h2>
+        1. कच्चा टेक्स्ट इनपुट
+      </h2>
 
-<p><strong>Location:</strong> Bhopal, Madhya Pradesh, India</p>
+      <p class="card-description">
+        अपना मूल टेक्स्ट यहाँ डालें।
+        System उपलब्ध जानकारी को structured fields
+        में बदलने का प्रयास करेगा।
+      </p>
 
-<p><strong>GitHub:</strong></p>
+      <label for="rawText">
+        Raw Text
+      </label>
 
-<a class="button"
-href="https://github.com/ajaysingh132">
-GitHub Profile
-</a>
+      <textarea
+        id="rawText"
+        placeholder="उदाहरण:
 
-<a class="button"
-href="https://github.com/ajaysingh132/GBSBFORYOU-Platform">
-Master Repository
-</a>
+नाम: अजय सिंह चौहान
+पता: भोपाल, मध्य प्रदेश
+दिनांक: 14 अगस्त 2026
+विषय: आवेदन
+मोबाइल: 9876543210
+ईमेल: example@email.com"
+      ></textarea>
 
-</section>
+      <button id="extractBtn">
+        Fields निकालें
+      </button>
 
-<!-- ========================= -->
-<!-- Ecosystem Principles -->
-<!-- ========================= -->
+    </section>
 
-<section class="card">
 
-<h2>⭐ Ecosystem Principles</h2>
+    <!-- =================================
+         STRUCTURED FIELDS
+    ================================== -->
 
-<ul>
+    <section class="card">
 
-<li>One Repository = One Responsibility</li>
+      <h2>
+        2. Structured Information
+      </h2>
 
-<li>One Source of Truth</li>
+      <p class="card-description">
+        निकाली गई जानकारी की जाँच करें।
+        आवश्यक होने पर field को edit करें।
+      </p>
 
-<li>No Duplicate Code</li>
+      <div id="fieldsContainer">
 
-<li>No Duplicate Data</li>
+        <p>
+          अभी कोई field नहीं निकाली गई है।
+        </p>
 
-<li>Documentation First</li>
+      </div>
 
-<li>API First</li>
+    </section>
 
-<li>Mobile First</li>
 
-<li>Open Standards</li>
+    <!-- =================================
+         TEMPLATE
+    ================================== -->
 
-<li>AI Ready</li>
+    <section class="card">
 
-<li>Community Driven</li>
+      <h2>
+        3. Template
+      </h2>
 
-</ul>
+      <p class="card-description">
+        जिस document structure में जानकारी
+        merge करनी है उसे चुनें।
+      </p>
 
-</section>
+      <label for="templateSelect">
+        Document Template
+      </label>
 
-<!-- ========================= -->
-<!-- Footer -->
-<!-- ========================= -->
+      <select id="templateSelect">
 
-</div>
+        <option value="application">
+          Basic Application
+        </option>
 
-<footer>
+        <option value="letter">
+          Basic Official Letter
+        </option>
 
-<h2>GBSBFORYOU Platform</h2>
+      </select>
 
-<p>
 
-Master Control Center for the
-GBSBFORYOU Digital Ecosystem
+      <div
+        id="templateInfo"
+        class="template-info"
+      >
+        Template:
+        Basic Application
+      </div>
 
-</p>
 
-<p>
+      <button id="mapBtn">
+        Template Mapping करें
+      </button>
 
-Documentation • Publishing • Library • BLE • Research • AI
+    </section>
 
-</p>
 
-<p>
+    <!-- =================================
+         MAPPING
+    ================================== -->
 
-Version 1.0
+    <section class="card">
 
-</p>
+      <h2>
+        4. Field Mapping
+      </h2>
 
-<p>
+      <p class="card-description">
+        Source information और template fields
+        के बीच mapping यहाँ दिखाई जाएगी।
+      </p>
 
-© 2026 GBSBFORYOU
+      <div id="mappingContainer">
 
-</p>
+        <p>
+          Mapping अभी नहीं हुई है।
+        </p>
 
-<button onclick="window.scrollTo({top:0,behavior:'smooth'})"
-style="margin-top:20px;padding:10px 20px;border:none;border-radius:6px;background:white;color:#1565c0;font-weight:bold;cursor:pointer;">
+      </div>
 
-⬆ Back to Top
+    </section>
 
-</button>
 
-</footer>
+    <!-- =================================
+         VALIDATION
+    ================================== -->
 
-<script>
+    <section class="card">
 
-console.log("GBSBFORYOU Platform Loaded");
+      <h2>
+        5. Validation
+      </h2>
 
-</script>
+      <p class="card-description">
+        Final document बनाने से पहले required
+        fields और data की जाँच होगी।
+      </p>
+
+      <button
+        id="validateBtn"
+        class="success"
+      >
+        Validate Document
+      </button>
+
+      <div
+        id="statusBox"
+        class="status"
+      ></div>
+
+    </section>
+
+
+    <!-- =================================
+         PREVIEW
+    ================================== -->
+
+    <section class="card">
+
+      <h2>
+        6. Document Preview
+      </h2>
+
+      <div
+        id="previewBox"
+        class="preview"
+      >
+        Preview यहाँ दिखाई देगा।
+      </div>
+
+    </section>
+
+
+    <!-- =================================
+         JSON
+    ================================== -->
+
+    <section class="card">
+
+      <h2>
+        7. Structured JSON
+      </h2>
+
+      <p class="card-description">
+        यह structured information debugging,
+        storage और future document generation
+        के लिए उपयोग होगी।
+      </p>
+
+      <textarea
+        id="jsonOutput"
+        class="json-output"
+        readonly
+        placeholder="Structured JSON यहाँ दिखाई देगा।"
+      ></textarea>
+
+      <button
+        id="copyJsonBtn"
+        class="secondary"
+      >
+        JSON Copy करें
+      </button>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- ===================================
+       FOOTER
+  ==================================== -->
+
+  <footer>
+
+    GBSBFORYOU · Universal Template Engine MVP
+
+    <br>
+
+    Ekaant AI Typing · Version 0.1.0
+
+  </footer>
+
+
+  <!-- ===================================
+       MODULES
+       
+       IMPORTANT:
+       पुराने inline JavaScript को
+       पूरी तरह हटा दिया गया है।
+  ==================================== -->
+
+  <script src="template-engine.js"></script>
+
+  <script src="validator.js"></script>
+
+  <script src="app.js"></script>
+
 
 </body>
-
 </html>
-    
