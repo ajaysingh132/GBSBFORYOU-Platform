@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="description"
+    content="GBSBFORYOU Universal Template Engine"
+  >
+
+  <meta
+    name="theme-color"
+    content="#111827"
+  >
+
+  <title>Universal Template Engine — GBSBFORYOU</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background: #f4f5f7;
+      color: #202124;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #111827;
+      color: #ffffff;
+      padding: 18px 16px;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 16px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .card-description {
+      margin-top: 0;
+      color: #666666;
+      font-size: 0.9rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+
+    textarea,
+    input,
+    select,
+    button {
+      width: 100%;
+      font: inherit;
+      border-radius: 9px;
+    }
+
+    textarea,
+    input,
+    select {
+      border: 1px solid #c8cdd3;
+      background: #ffffff;
+      padding: 11px;
+      margin-top: 6px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 180px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 2px solid #9ca3af;
+      outline-offset: 1px;
+    }
+
+    button {
+      border: 0;
+      padding: 12px;
+      margin-top: 10px;
+      background: #111827;
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button.secondary {
+      background: #4b5563;
+    }
+
+    button.success {
+      background: #166534;
+    }
+
+    .field {
+      border: 1px solid #d7dbe0;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 10px 0;
+      background: #fafafa;
+    }
+
+    .field-name {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .field-source {
+      margin-top: 6px;
+      color: #666666;
+      font-size: 0.78rem;
+    }
+
+    .status {
+      display: none;
+      padding: 11px;
+      margin-top: 12px;
+      border-radius: 9px;
+      font-size: 0.9rem;
+    }
+
+    .status.success {
+      display: block;
+      background: #ecfdf3;
+      color: #067647;
+    }
+
+    .status.warning {
+      display: block;
+      background: #fffaeb;
+      color: #b54708;
+    }
+
+    .status.error {
+      display: block;
+      background: #fef3f2;
+      color: #b42318;
+    }
+
+    .preview {
+      min-height: 200px;
+      padding: 18px;
+      background: #fafafa;
+      border: 1px solid #d9dde2;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      line-height: 1.8;
+    }
+
+    .json-output {
+      width: 100%;
+      min-height: 240px;
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+      font-size: 0.82rem;
+      white-space: pre;
+    }
+
+    .template-info {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f8fafc;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #555555;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 10px 0 18px;
+    }
+
+    .workflow-step {
+      padding: 9px 5px;
+      text-align: center;
+      background: #f3f4f6;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    footer {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 16px 30px;
+      text-align: center;
+      color: #666666;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 650px) {
+
+      main {
+        padding: 12px;
+      }
+
+      .workflow {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .workflow-step:last-child {
+        grid-column: span 2;
+      }
+
+    }
+
+    @media (min-width: 700px) {
+
+      header {
+        padding: 22px 16px;
+      }
+
+      main {
+        padding: 25px 16px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="header-inner">
+
+      <h1>
+        Universal Template Engine
+      </h1>
+
+      <p>
+        GBSBFORYOU Platform · Ekaant AI Typing
+      </p>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <section class="workflow">
+
+      <div class="workflow-step">
+        1. Raw Text
+      </div>
+
+      <div class="workflow-step">
+        2. Fields
+      </div>
+
+      <div class="workflow-step">
+        3. Mapping
+      </div>
+
+      <div class="workflow-step">
+        4. Validation
+      </div>
+
+      <div class="workflow-step">
+        5. Preview
+      </div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        1. कच्चा टेक्स्ट इनपुट
+      </h2>
+
+      <p class="card-description">
+        मूल जानकारी यहाँ डालें। System इसे
+        structured fields में बदलेगा।
+      </p>
+
+      <label for="rawText">
+        Raw Text
+      </label>
+
+      <textarea
+        id="rawText"
+        placeholder="उदाहरण:
+
+नाम: अजय सिंह चौहान
+पता: भोपाल, मध्य प्रदेश
+दिनांक: 14 अगस्त 2026
+विषय: आवेदन
+मोबाइल: 9876543210
+ईमेल: example@email.com"
+      ></textarea>
+
+      <button id="extractBtn">
+        Fields निकालें
+      </button>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        2. Structured Information
+      </h2>
+
+      <p class="card-description">
+        निकाली गई जानकारी की जाँच करें और
+        आवश्यकता होने पर सुधार करें।
+      </p>
+
+      <div id="fieldsContainer">
+
+        <p>
+          अभी कोई field नहीं निकाली गई है।
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        3. Template
+      </h2>
+
+      <p class="card-description">
+        जिस document structure में जानकारी
+        merge करनी है उसे चुनें।
+      </p>
+
+      <label for="templateSelect">
+        Document Template
+      </label>
+
+      <select id="templateSelect">
+
+        <option value="application">
+          Basic Application
+        </option>
+
+        <option value="letter">
+          Basic Official Letter
+        </option>
+
+      </select>
+
+      <div
+        id="templateInfo"
+        class="template-info"
+      >
+        Template:
+        Basic Application
+      </div>
+
+      <button id="mapBtn">
+        Template Mapping करें
+      </button>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        4. Field Mapping
+      </h2>
+
+      <p class="card-description">
+        Source information और template fields
+        के बीच mapping यहाँ दिखाई जाएगी।
+      </p>
+
+      <div id="mappingContainer">
+
+        <p>
+          Mapping अभी नहीं हुई है।
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        5. Validation
+      </h2>
+
+      <p class="card-description">
+        Final document बनने से पहले required
+        fields और data की जाँच होगी।
+      </p>
+
+      <button
+        id="validateBtn"
+        class="success"
+      >
+        Validate Document
+      </button>
+
+      <div
+        id="statusBox"
+        class="status"
+      ></div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        6. Document Preview
+      </h2>
+
+      <div
+        id="previewBox"
+        class="preview"
+      >
+        Preview यहाँ दिखाई देगा।
+      </div>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        7. Structured JSON
+      </h2>
+
+      <p class="card-description">
+        Structured data debugging, storage और
+        आगे document generation के लिए उपयोग होगा।
+      </p>
+
+      <textarea
+        id="jsonOutput"
+        class="json-output"
+        readonly
+        placeholder="Structured JSON यहाँ दिखाई देगा।"
+      ></textarea>
+
+      <button
+        id="copyJsonBtn"
+        class="secondary"
+      >
+        JSON Copy करें
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    GBSBFORYOU · Universal Template Engine MVP
+
+    <br>
+
+    Ekaant AI Typing · Version 0.2.0
+
+  </footer>
+
+
+  <!-- External Modules -->
+
+  <script src="template-engine.js"></script>
+
+  <script src="validator.js"></script>
+
+  <script src="app.js"></script>
+
+
+</body>
+  </html>
