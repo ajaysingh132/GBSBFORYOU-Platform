@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description"
+        content="GBSBFORYOU Universal Template Engine MVP">
+
+  <title>Universal Template Engine — MVP</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", sans-serif;
+      background: #f4f5f7;
+      color: #202124;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px 16px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      opacity: 0.85;
+      font-size: 0.9rem;
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.05rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    textarea,
+    input,
+    select,
+    button {
+      width: 100%;
+      font: inherit;
+      border-radius: 9px;
+    }
+
+    textarea,
+    input,
+    select {
+      border: 1px solid #c8cdd3;
+      padding: 11px;
+      margin-top: 6px;
+      background: white;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 180px;
+    }
+
+    button {
+      border: 0;
+      padding: 12px;
+      margin-top: 10px;
+      background: #111827;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .secondary {
+      background: #4b5563;
+    }
+
+    .field {
+      border: 1px solid #d7dbe0;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 10px 0;
+      background: #fafafa;
+    }
+
+    .field-name {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .field-source {
+      font-size: 0.78rem;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .missing {
+      border-color: #b42318;
+      background: #fff5f5;
+    }
+
+    .status {
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .success {
+      display: block;
+      background: #ecfdf3;
+      color: #067647;
+    }
+
+    .warning {
+      display: block;
+      background: #fffaeb;
+      color: #b54708;
+    }
+
+    .error {
+      display: block;
+      background: #fef3f2;
+      color: #b42318;
+    }
+
+    .preview {
+      min-height: 180px;
+      padding: 16px;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+
+    .json-output {
+      width: 100%;
+      min-height: 220px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: #e5e7eb;
+      font-size: 0.75rem;
+      margin-top: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+      font-size: 0.8rem;
+    }
+
+    @media (min-width: 700px) {
+      main {
+        padding: 25px;
+      }
+
+      header {
+        padding: 22px calc((100% - 850px) / 2);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Universal Template Engine</h1>
+  <p>GBSBFORYOU Platform · Ekaant AI Typing</p>
+</header>
+
+<main>
+
+  <!-- RAW INPUT -->
+  <section class="card">
+
+    <h2>1. कच्चा टेक्स्ट इनपुट</h2>
+
+    <label for="rawText">
+      अपना कच्चा टेक्स्ट यहाँ डालें
+    </label>
+
+    <textarea
+      id="rawText"
+      placeholder="उदाहरण:
+
+नाम: अजय सिंह चौहान
+पता: भोपाल, मध्य प्रदेश
+दिनांक: 14 अगस्त 2026
+विषय: आवेदन
+मोबाइल: 9876543210
+ईमेल: example@email.com"></textarea>
+
+    <button id="extractBtn">
+      Fields निकालें
+    </button>
+
+  </section>
+
+
+  <!-- STRUCTURED FIELDS -->
+  <section class="card">
+
+    <h2>2. Structured Information</h2>
+
+    <p>
+      नीचे निकाली गई जानकारी की जाँच और सुधार करें।
+    </p>
+
+    <div id="fieldsContainer">
+      <p>अभी कोई field नहीं निकाली गई है।</p>
+    </div>
+
+  </section>
+
+
+  <!-- TEMPLATE -->
+  <section class="card">
+
+    <h2>3. Template चुनें</h2>
+
+    <label for="templateSelect">
+      Document Template
+    </label>
+
+    <select id="templateSelect">
+
+      <option value="application">
+        Basic Application
+      </option>
+
+      <option value="letter">
+        Basic Official Letter
+      </option>
+
+    </select>
+
+    <button id="validateBtn">
+      Validate & Preview
+    </button>
+
+    <div id="statusBox" class="status"></div>
+
+  </section>
+
+
+  <!-- PREVIEW -->
+  <section class="card">
+
+    <h2>4. Document Preview</h2>
+
+    <div id="previewBox" class="preview">
+      Preview यहाँ दिखाई देगा।
+    </div>
+
+  </section>
+
+
+  <!-- JSON -->
+  <section class="card">
+
+    <h2>5. Structured JSON</h2>
+
+    <textarea
+      id="jsonOutput"
+      class="json-output"
+      readonly
+      placeholder="Structured JSON यहाँ दिखाई देगा।"></textarea>
+
+    <button id="copyJsonBtn" class="secondary">
+      JSON Copy करें
+    </button>
+
+  </section>
+
+</main>
+
+
+<footer>
+  GBSBFORYOU · Universal Template Engine MVP
+</footer>
+
+
+<script>
+
+  /*
+   * Universal Template Engine
+   * MVP Frontend
+   *
+   * महत्वपूर्ण:
+   * यह प्रारंभिक client-side prototype है।
+   * इसमें कोई API key या private credential नहीं है।
+   */
+
+
+  const state = {
+
+    rawText: "",
+
+    fields: {},
+
+    template: "application",
+
+    confirmed: false
+
+  };
+
+
+  /*
+   * Supported field dictionary
+   */
+
+  const FIELD_DICTIONARY = {
+
+    "नाम": "name",
+    "नाम ": "name",
+    "name": "name",
+
+    "पिता का नाम": "father_name",
+    "father name": "father_name",
+
+    "माता का नाम": "mother_name",
+    "mother name": "mother_name",
+
+    "पता": "address",
+    "address": "address",
+
+    "शहर": "city",
+    "city": "city",
+
+    "जिला": "district",
+    "district": "district",
+
+    "राज्य": "state",
+    "state": "state",
+
+    "देश": "country",
+    "country": "country",
+
+    "पिन": "pin_code",
+    "पिन कोड": "pin_code",
+    "pin code": "pin_code",
+
+    "मोबाइल": "phone",
+    "मोबाइल नंबर": "phone",
+    "phone": "phone",
+
+    "ईमेल": "email",
+    "email": "email",
+
+    "दिनांक": "date",
+    "तारीख": "date",
+    "date": "date",
+
+    "विषय": "subject",
+    "subject": "subject",
+
+    "संदर्भ संख्या": "reference_number",
+    "reference number": "reference_number",
+
+    "संस्था": "organization",
+    "organization": "organization",
+
+    "पद": "designation",
+    "designation": "designation",
+
+    "राशि": "amount",
+    "amount": "amount",
+
+    "दस्तावेज़ संख्या": "document_number",
+    "दस्तावेज संख्या": "document_number",
+    "document number": "document_number"
+
+  };
+
+
+  /*
+   * Human readable field names
+   */
+
+  const FIELD_LABELS = {
+
+    name: "नाम",
+
+    father_name: "पिता का नाम",
+
+    mother_name: "माता का नाम",
+
+    address: "पता",
+
+    city: "शहर",
+
+    district: "जिला",
+
+    state: "राज्य",
+
+    country: "देश",
+
+    pin_code: "पिन कोड",
+
+    phone: "मोबाइल",
+
+    email: "ईमेल",
+
+    date: "दिनांक",
+
+    subject: "विषय",
+
+    reference_number: "संदर्भ संख्या",
+
+    organization: "संस्था",
+
+    designation: "पद",
+
+    amount: "राशि",
+
+    document_number: "दस्तावेज़ संख्या"
+
+  };
+
+
+  /*
+   * Template definitions
+   */
+
+  const TEMPLATES = {
+
+    application: {
+
+      name: "Basic Application",
+
+      required: [
+
+        "name",
+
+        "address",
+
+        "date",
+
+        "subject"
+
+      ]
+
+    },
+
+    letter: {
+
+      name: "Basic Official Letter",
+
+      required: [
+
+        "name",
+
+        "address",
+
+        "date",
+
+        "subject"
+
+      ]
+
+    }
+
+  };
+
+
+  /*
+   * Extract fields from simple
+   * "key: value" input.
+   */
+
+  function extractFields(text) {
+
+    const result = {};
+
+    const lines = text.split(/\r?\n/);
+
+    lines.forEach(line => {
+
+      const separator = line.indexOf(":");
+
+      if (separator === -1) {
+        return;
+      }
+
+      const rawKey = line
+        .substring(0, separator)
+        .trim()
+        .toLowerCase();
+
+      const value = line
+        .substring(separator + 1)
+        .trim();
+
+      if (!value) {
+        return;
+      }
+
+      const fieldKey = FIELD_DICTIONARY[rawKey];
+
+      if (!fieldKey) {
+        return;
+      }
+
+      result[fieldKey] = {
+
+        value: value,
+
+        source: "USER_PROVIDED",
+
+        confidence: 1,
+
+        confirmed: false
+
+      };
+
+    });
+
+    return result;
+
+  }
+
+
+  /*
+   * Render fields
+   */
+
+  function renderFields() {
+
+    const container =
+      document.getElementById("fieldsContainer");
+
+    container.innerHTML = "";
+
+    const keys = Object.keys(state.fields);
+
+    if (!keys.length) {
+
+      container.innerHTML =
+        "<p>कोई recognized field नहीं मिली।</p>";
+
+      return;
+
+    }
+
+
+    keys.forEach(key => {
+
+      const item = state.fields[key];
+
+      const wrapper =
+        document.createElement("div");
+
+      wrapper.className = "field";
+
+      const label =
+        document.createElement("div");
+
+      label.className = "field-name";
+
+      label.textContent =
+        FIELD_LABELS[key] || key;
+
+      const input =
+        document.createElement("input");
+
+      input.value = item.value;
+
+      input.dataset.field = key;
+
+      input.addEventListener("input", event => {
+
+        state.fields[key].value =
+          event.target.value;
+
+        state.fields[key].confirmed = false;
+
+        updateJSON();
+
+      });
+
+      const source =
+        document.createElement("div");
+
+      source.className = "field-source";
+
+      source.textContent =
+        "Source: " +
+        item.source +
+        " · Confidence: " +
+        Math.round(item.confidence * 100) +
+        "%";
+
+      wrapper.appendChild(label);
+
+      wrapper.appendChild(input);
+
+      wrapper.appendChild(source);
+
+      container.appendChild(wrapper);
+
+    });
+
+  }
+
+
+  /*
+   * Validate required fields
+   */
+
+  function validateFields() {
+
+    const template =
+      TEMPLATES[state.template];
+
+    const missing = [];
+
+    template.required.forEach(field => {
+
+      const item = state.fields[field];
+
+      if (!item || !item.value.trim()) {
+
+        missing.push(
+          FIELD_LABELS[field] || field
+        );
+
+      }
+
+    });
+
+    return missing;
+
+  }
+
+
+  /*
+   * Build document preview
+   */
+
+  function buildPreview() {
+
+    const fields = state.fields;
+
+    const get = key => {
+
+      return fields[key]
+        ? fields[key].value
+        : "[MISSING]";
+
+    };
+
+
+    if (state.template === "application") {
+
+      return (
+
+        "आवेदन\n\n" +
+
+        "आवेदक का नाम: " +
+        get("name") +
+
+        "\n\nपता: " +
+        get("address") +
+
+        "\n\nविषय: " +
+        get("subject") +
+
+        "\n\nदिनांक: " +
+        get("date") +
+
+        "\n\n" +
+
+        "आवेदक:\n" +
+        get("name")
+
+      );
+
+    }
+
+
+    return (
+
+      "आधिकारिक पत्र\n\n" +
+
+      "प्रेषक: " +
+      get("name") +
+
+      "\n" +
+
+      "पता: " +
+      get("address") +
+
+      "\n\nविषय: " +
+      get("subject") +
+
+      "\n\nदिनांक: " +
+      get("date")
+
+    );
+
+  }
+
+
+  /*
+   * JSON output
+   */
+
+  function updateJSON() {
+
+    const output = {
+
+      project:
+        "GBSBFORYOU Universal Template Engine",
+
+      version:
+        "0.1.0",
+
+      template:
+        state.template,
+
+      fields:
+        state.fields
+
+    };
+
+    document.getElementById("jsonOutput").value =
+      JSON.stringify(output, null, 2);
+
+  }
+
+
+  /*
+   * Status message
+   */
+
+  function showStatus(message, type) {
+
+    const box =
+      document.getElementById("statusBox");
+
+    box.className =
+      "status " + type;
+
+    box.textContent =
+      message;
+
+  }
+
+
+  /*
+   * Extract button
+   */
+
+  document
+    .getElementById("extractBtn")
+    .addEventListener("click", () => {
+
+      const raw =
+        document.getElementById("rawText").value.trim();
+
+      if (!raw) {
+
+        showStatus(
+          "पहले कच्चा टेक्स्ट डालें।",
+          "warning"
+        );
+
+        return;
+
+      }
+
+      state.rawText = raw;
+
+      state.fields =
+        extractFields(raw);
+
+      renderFields();
+
+      updateJSON();
+
+      const count =
+        Object.keys(state.fields).length;
+
+      if (count === 0) {
+
+        showStatus(
+          "कोई recognized field नहीं मिली। Format उदाहरण: नाम: अजय सिंह चौहान",
+          "warning"
+        );
+
+        return;
+
+      }
+
+      showStatus(
+        count + " field निकाली गई। कृपया जाँच करें।",
+        "success"
+      );
+
+    });
+
+
+  /*
+   * Template selection
+   */
+
+  document
+    .getElementById("templateSelect")
+    .addEventListener("change", event => {
+
+      state.template =
+        event.target.value;
+
+      updateJSON();
+
+    });
+
+
+  /*
+   * Validate and preview
+   */
+
+  document
+    .getElementById("validateBtn")
+    .addEventListener("click", () => {
+
+      const missing =
+        validateFields();
+
+      if (missing.length) {
+
+        showStatus(
+          "आवश्यक जानकारी missing है: " +
+          missing.join(", "),
+          "error"
+        );
+
+        document.getElementById("previewBox")
+          .textContent =
+          "Document तैयार नहीं किया जा सकता। Missing fields भरें।";
+
+        return;
+
+      }
+
+      state.confirmed = true;
+
+      document.getElementById("previewBox")
+        .textContent =
+        buildPreview();
+
+      showStatus(
+        "Validation सफल। Preview तैयार है।",
+        "success"
+      );
+
+      updateJSON();
+
+    });
+
+
+  /*
+   * Copy JSON
+   */
+
+  document
+    .getElementById("copyJsonBtn")
+    .addEventListener("click", async () => {
+
+      const text =
+        document.getElementById("jsonOutput").value;
+
+      if (!text) {
+        return;
+      }
+
+      try {
+
+        await navigator.clipboard.writeText(text);
+
+        showStatus(
+          "JSON clipboard में copy हो गया।",
+          "success"
+        );
+
+      } catch (error) {
+
+        showStatus(
+          "JSON copy नहीं हो सका।",
+          "warning"
+        );
+
+      }
+
+    });
+
+</script>
+
+</body>
+  </html>
