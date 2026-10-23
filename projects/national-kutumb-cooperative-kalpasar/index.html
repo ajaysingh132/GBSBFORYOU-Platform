@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123b35">
+<title>राष्ट्रीय कुटुंब सहकारिता | काल्पसर जन-वित्तपोषण</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;color:#182c2a;background:#f4f7f5}
+*{box-sizing:border-box}body{margin:0}header{background:#123b35;color:white;padding:28px 18px}
+.wrap{max-width:980px;margin:auto}h1{font-size:clamp(1.6rem,5vw,2.5rem);line-height:1.25;margin:.3rem 0}h2{font-size:1.2rem}p{line-height:1.65}.tag{display:inline-block;background:#d9efe8;color:#123b35;padding:5px 10px;border-radius:99px;font-size:.85rem;font-weight:700}
+main{padding:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.card{background:white;border:1px solid #dbe6e0;border-radius:16px;padding:18px;box-shadow:0 3px 12px #163d3510}
+label{display:block;font-weight:650;margin:12px 0 5px}input,select{width:100%;padding:12px;border:1px solid #b7c9c0;border-radius:10px;font:inherit;background:#fff}button{padding:12px 16px;border:0;border-radius:10px;background:#146c54;color:#fff;font:inherit;font-weight:700;width:100%;margin-top:14px}
+.big{font-size:1.65rem;font-weight:800;color:#146c54;overflow-wrap:anywhere}.muted{color:#526763;font-size:.92rem}.notice{background:#fff3d6;border-left:4px solid #bb7a00;padding:12px;border-radius:8px}.stat{background:#e7f3ee;border-radius:12px;padding:12px;margin-top:10px}.foot{padding:20px;color:#526763;font-size:.9rem}a{color:#0c6b50}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<span class="tag">प्रस्तावित नागरिक पहल • डेमो v0.1</span>
+<h1>राष्ट्रीय कुटुंब सहकारिता</h1>
+<p>काल्पसर परियोजना के लिए स्वैच्छिक नागरिक अनुदान, विशेषज्ञ ज्ञान, श्रम योगदान और सार्वजनिक वित्तीय पारदर्शिता का प्रस्तावित मॉडल।</p>
+</div></header>
+<main class="wrap">
+<div class="notice"><strong>महत्वपूर्ण:</strong> यह केवल अवधारणा-प्रोटोटाइप है। यह सरकारी स्वीकृति, पंजीकृत संस्था, कर-छूट, आधिकारिक बजट या धन-संग्रह पोर्टल नहीं है। यहाँ कोई भुगतान नहीं लिया जाता और व्यक्तिगत जानकारी जमा नहीं होती।</div>
+<section class="grid" style="margin-top:16px">
+<div class="card"><h2>सदस्यता शुल्क</h2><p>प्रस्तावित विकल्प</p><div class="big">₹10 / ₹100 / ₹1,000</div><p class="muted">सदस्यता अवधि और अधिकार अंतिम उपनियमों से तय होंगे। सदस्यता शुल्क को परियोजना-अनुदान से अलग रखा जाएगा।</p></div>
+<div class="card"><h2>स्वैच्छिक परियोजना-अनुदान</h2><p>प्रस्तावित सिद्धांत</p><div class="big">₹10 से आगे</div><p class="muted">सदस्य या गैर-सदस्य किसी भी वैध राशि का स्वैच्छिक योगदान कर सकते हैं। वास्तविक धन-संग्रह कानूनी तैयारी और अनुमति के बाद ही।</p></div>
+<div class="card"><h2>सरकारी स्थिति</h2><p>27 जुलाई 2026 के सरकारी उत्तर के अनुसार DPR अंतिम रूप देने के उन्नत चरण में थी।</p><p><a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=2289927&lang=1&reg=48" target="_blank" rel="noopener">PIB स्रोत पढ़ें ↗</a></p></div>
+</section>
+<section class="card" style="margin-top:16px">
+<h2>अनुमानात्मक अनुदान कैलकुलेटर</h2>
+<p class="muted">यह केवल गणितीय उदाहरण है, वास्तविक संग्रह का अनुमान या वादा नहीं।</p>
+<label for="donors">वार्षिक सक्रिय अनुदानदाता</label><input id="donors" type="number" min="0" step="1" value="1000000">
+<label for="avg">प्रति अनुदानदाता औसत वार्षिक अनुदान (₹)</label><input id="avg" type="number" min="0" step="1" value="1000">
+<label for="cost">अनुमानित प्रशासन/भुगतान लागत (%)</label><input id="cost" type="number" min="0" max="100" step="0.5" value="0">
+<button id="calc" type="button">सकल और उदाहरणात्मक शुद्ध राशि निकालें</button>
+<div class="grid">
+<div class="stat"><div class="muted">वार्षिक सकल अनुदान</div><div class="big" id="gross">₹100 करोड़</div></div>
+<div class="stat"><div class="muted">दर्शाई गई कटौती के बाद अनुमान</div><div class="big" id="net">₹100 करोड़</div></div>
+</div>
+<p class="muted">लागत प्रतिशत केवल उपयोगकर्ता का उदाहरण है; यह अनुमोदित प्रशासनिक दर नहीं है। वास्तविक लेखा नीति और कानूनी खर्च-सीमा अलग से स्वीकृत करनी होगी।</p>
+</section>
+<section class="grid" style="margin-top:16px">
+<div class="card"><h2>पारदर्शिता के प्रस्तावित नियम</h2><ul><li>सदस्यता और अनुदान के अलग खाते</li><li>क्रमांकित रसीद और ऑडिट ट्रेल</li><li>तिमाही सार्वजनिक रिपोर्ट</li><li>स्वतंत्र वार्षिक लेखापरीक्षा</li><li>दानदाता की निजता की सुरक्षा</li></ul></div>
+<div class="card"><h2>आगे के कदम</h2><ol><li>नवीनतम DPR और लागत सत्यापित करना</li><li>सहकारी/कर विशेषज्ञ की लिखित राय</li><li>संस्था और लेखा ढाँचा स्थापित करना</li><li>सरकारी अनुमति/समझौते का मार्ग स्पष्ट करना</li><li>तभी सीमित पायलट पर विचार करना</li></ol></div>
+</section>
+<section class="card" style="margin-top:16px"><h2>परियोजना दस्तावेज़</h2><p>GitHub परियोजना फ़ोल्डर में उद्देश्य, सरकारी प्रस्ताव, वित्तीय मॉडल, कानूनी सुरक्षा, तकनीकी वास्तुकला और रोडमैप शामिल हैं।</p><p><a href="docs/GOVERNMENT_PROPOSAL_HI.md">सरकारी प्रस्ताव</a> · <a href="docs/FINANCIAL_MODEL.md">वित्तीय मॉडल</a> · <a href="docs/GOVERNANCE_AND_LEGAL_GUARDRAILS.md">कानूनी सुरक्षा</a></p></section>
+</main>
+<div class="foot wrap">GBSBFORYOU • प्रारंभिक नागरिक नीति-प्रस्ताव • कोई सरकारी अनुमोदन निहित नहीं।</div>
+<script>
+const inr=n=>new Intl.NumberFormat('hi-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n);
+function calc(){const d=Math.max(0,Number(document.getElementById('donors').value)||0),a=Math.max(0,Number(document.getElementById('avg').value)||0),p=Math.min(100,Math.max(0,Number(document.getElementById('cost').value)||0));const gross=d*a;const net=gross*(1-p/100);document.getElementById('gross').textContent=inr(gross);document.getElementById('net').textContent=inr(net)}
+document.getElementById('calc').addEventListener('click',calc);calc();
+</script>
+</body></html>
