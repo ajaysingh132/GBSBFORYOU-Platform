@@ -24,12 +24,15 @@ This document maintains the official list of all projects developed under the GB
 ## 1. GBSBFORYOU Platform
 
 Purpose:
+
 Master Control Center
 
 Status:
+
 🟢 Active
 
 Repository:
+
 GBSBFORYOU-Platform
 
 ---
@@ -37,9 +40,11 @@ GBSBFORYOU-Platform
 ## 2. Publications
 
 Purpose:
+
 Digital Publishing, eBooks, ISBN
 
 Status:
+
 🟢 Active
 
 ---
@@ -47,9 +52,11 @@ Status:
 ## 3. Digital Library
 
 Purpose:
+
 Books, Audio Books, Knowledge Archive
 
 Status:
+
 🟢 Active
 
 ---
@@ -57,9 +64,11 @@ Status:
 ## 4. Banjara Language Engine (BLE)
 
 Purpose:
+
 Dictionary, Translator, OCR, AI Language Tools
 
 Status:
+
 🟢 Active
 
 ---
@@ -69,19 +78,37 @@ Status:
 ## 5. Digital Parliament
 
 Purpose:
+
 Digital Governance and Public Policy
 
 Status:
+
 🟡 Development
+
+### Registered programme: PRJ-013 — GBSBFORYOU Parliament 2026
+
+Purpose:
+
+Research-led, fictional AI mock-parliament initiative on Banjara and DNT/NT/SNT constitutional rights, Sahakari Kutumbi philosophy, community cooperation, MP outreach and a multi-volume publication programme.
+
+Status:
+
+🟡 Registered — Planning and research
+
+Registration:
+
+[Project Charter](projects/PRJ-013/PROJECT-CHARTER.md) · [Project Ledger](PROJECT-LEDGER.md)
 
 ---
 
 ## 6. Digital Gurukul
 
 Purpose:
+
 AI Powered Education Platform
 
 Status:
+
 🟡 Development
 
 ---
@@ -89,9 +116,11 @@ Status:
 ## 7. Constitution
 
 Purpose:
+
 Policies, Standards and Governance
 
 Status:
+
 🟡 Development
 
 ---
@@ -101,9 +130,11 @@ Status:
 ## 8. Research Platform
 
 Purpose:
+
 Research Documentation and Knowledge Preservation
 
 Status:
+
 🔵 Planned
 
 ---
@@ -111,9 +142,11 @@ Status:
 ## 9. Community Platform
 
 Purpose:
+
 Community Collaboration
 
 Status:
+
 🔵 Planned
 
 ---
@@ -121,9 +154,11 @@ Status:
 ## 10. AI Platform
 
 Purpose:
+
 AI Services and Automation
 
 Status:
+
 🔵 Planned
 
 ---
@@ -131,9 +166,11 @@ Status:
 ## 11. Digital Archive
 
 Purpose:
+
 Historical Preservation
 
 Status:
+
 🔵 Planned
 
 ---
@@ -141,9 +178,11 @@ Status:
 ## 12. Digital Marketplace
 
 Purpose:
+
 Digital Products and Services
 
 Status:
+
 🔵 Planned
 
 ---
@@ -173,7 +212,11 @@ Documentation
 
 ↓
 
-Repository
+Registry and Project ID
+
+↓
+
+Repository / Workstream
 
 ↓
 
@@ -181,7 +224,7 @@ Development
 
 ↓
 
-Testing
+Testing and Review
 
 ↓
 
@@ -198,10 +241,11 @@ Maintenance
 GBSBFORYOU Platform Team
 
 Repository Owner:
+
 Ajay Singh Chouhan
 
 ---
 
-Version: 1.0
+Version: 2.0
 
-Last Updated: 2026
+Last Updated: 13 November 2026
